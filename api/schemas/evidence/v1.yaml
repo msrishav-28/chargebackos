@@ -1,0 +1,47 @@
+version: v1
+families:
+  not_received:
+    required:
+      - transaction_record
+      - order_confirmation
+      - fulfillment_status
+    preferred:
+      - delivery_confirmation
+      - carrier_scan
+      - communication_history
+    optional:
+      - prior_undisputed_orders
+      - customer_acknowledgment
+  unauthorized:
+    required:
+      - transaction_record
+      - authentication_indicator
+      - account_session_evidence
+    preferred:
+      - device_consistency
+      - prior_successful_link
+      - three_ds_result
+    optional:
+      - delivery_proof
+      - billing_descriptor
+  service_issue:
+    required:
+      - transaction_record
+      - order_confirmation
+      - support_history
+    preferred:
+      - refund_timeline
+      - cancellation_timeline
+      - product_record
+    optional:
+      - delivery_confirmation
+      - customer_acknowledgment
+  other:
+    required:
+      - transaction_record
+      - order_confirmation
+    preferred:
+      - communication_history
+      - authentication_indicator
+    optional:
+      - delivery_confirmation

@@ -1,0 +1,30 @@
+# Optional Render Blueprint. Root Directory must be `api`.
+# Do not use Render free Postgres — it expires in 30 days. Use Neon.
+services:
+  - type: web
+    name: chargebackos-api
+    runtime: python
+    plan: free
+    rootDir: api
+    branch: main
+    autoDeployTrigger: commit
+    buildFilter:
+      paths:
+        - api/**
+        - render.yaml
+    buildCommand: pip install -r requirements.txt && python -m app.train && alembic upgrade head && python -m app.seed
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health/live
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_URL_DIRECT
+        sync: false
+      - key: AUTH_SECRET
+        generateValue: true
+      - key: DEMO_PASSWORD
+        sync: false
+      - key: WEB_ORIGIN
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11.9"

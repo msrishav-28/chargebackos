@@ -1,0 +1,1 @@
+"""ChargebackOS FastAPI application."""

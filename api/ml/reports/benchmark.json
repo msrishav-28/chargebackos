@@ -1,0 +1,777 @@
+{
+  "evaluation": {
+    "nTrain": 1050,
+    "nValid": 225,
+    "nTest": 225,
+    "frozen": true,
+    "seed": 42,
+    "datasetVersion": "synth-v1.5",
+    "modelVersion": "hgb-calibrated-v2",
+    "selectedThreshold": 0.74,
+    "thresholdRationale": "Selected on validation only. Maximize simulated net value subject to contest precision \u2265 75% Frozen threshold = 0.74 before any test-set look.",
+    "classification": {
+      "accuracy": 0.8933333333333333,
+      "macroF1": 0.78225211889005,
+      "perClass": {
+        "friendly_fraud_likely": {
+          "precision": 0.9006622516556292,
+          "recall": 0.9784172661870504,
+          "f1": 0.9379310344827586,
+          "support": 139
+        },
+        "merchant_service_issue": {
+          "precision": 0.76,
+          "recall": 0.6551724137931034,
+          "f1": 0.7037037037037037,
+          "support": 29
+        },
+        "true_fraud_likely": {
+          "precision": 0.9318181818181818,
+          "recall": 0.9318181818181818,
+          "f1": 0.9318181818181818,
+          "support": 44
+        },
+        "technical_or_insufficient_information": {
+          "precision": 1.0,
+          "recall": 0.38461538461538464,
+          "f1": 0.5555555555555556,
+          "support": 13
+        }
+      },
+      "confusion": [
+        [
+          136,
+          3,
+          0,
+          0
+        ],
+        [
+          9,
+          19,
+          1,
+          0
+        ],
+        [
+          1,
+          2,
+          41,
+          0
+        ],
+        [
+          5,
+          1,
+          2,
+          5
+        ]
+      ],
+      "labels": [
+        "friendly_fraud_likely",
+        "merchant_service_issue",
+        "true_fraud_likely",
+        "technical_or_insufficient_information"
+      ]
+    },
+    "fightWorthiness": {
+      "prAuc": 0.7553172447815162,
+      "rocAuc": 0.7975206611570247,
+      "brier": 0.17650461890974703,
+      "precision": 0.75,
+      "recall": 0.12396694214876033,
+      "f1": 0.21276595744680848,
+      "supportPositive": 121
+    },
+    "calibration": {
+      "brierScore": 0.17650461890974703,
+      "ece": 0.08112996699603205,
+      "bins": [
+        {
+          "meanPred": 0.061886140230591496,
+          "meanActual": 0.06896551724137931,
+          "count": 29,
+          "lower": 0.0,
+          "upper": 0.1
+        },
+        {
+          "meanPred": 0.15000000000000002,
+          "meanActual": 0.15000000000000002,
+          "count": 0,
+          "lower": 0.1,
+          "upper": 0.2
+        },
+        {
+          "meanPred": 0.22222222222222227,
+          "meanActual": 0.0,
+          "count": 9,
+          "lower": 0.2,
+          "upper": 0.3
+        },
+        {
+          "meanPred": 0.31603860687072255,
+          "meanActual": 0.16666666666666666,
+          "count": 12,
+          "lower": 0.3,
+          "upper": 0.4
+        },
+        {
+          "meanPred": 0.45,
+          "meanActual": 0.45,
+          "count": 0,
+          "lower": 0.4,
+          "upper": 0.5
+        },
+        {
+          "meanPred": 0.5509243125392165,
+          "meanActual": 0.3103448275862069,
+          "count": 29,
+          "lower": 0.5,
+          "upper": 0.6
+        },
+        {
+          "meanPred": 0.6500000000000001,
+          "meanActual": 0.5333333333333333,
+          "count": 15,
+          "lower": 0.6,
+          "upper": 0.7
+        },
+        {
+          "meanPred": 0.7281102897717069,
+          "meanActual": 0.7657657657657657,
+          "count": 111,
+          "lower": 0.7,
+          "upper": 0.8
+        },
+        {
+          "meanPred": 0.8078902347035727,
+          "meanActual": 0.7368421052631579,
+          "count": 19,
+          "lower": 0.8,
+          "upper": 0.9
+        },
+        {
+          "meanPred": 1.0,
+          "meanActual": 1.0,
+          "count": 1,
+          "lower": 0.9,
+          "upper": 1.0
+        }
+      ]
+    },
+    "thresholdCurve": [
+      {
+        "threshold": 0.1,
+        "precision": 0.6929133858267716,
+        "recall": 0.676923076923077,
+        "expectedRecovery": 102228,
+        "falsePositiveCost": 39234.10000000001,
+        "netValue": 29090.364999999998,
+        "contested": 127
+      },
+      {
+        "threshold": 0.15,
+        "precision": 0.6929133858267716,
+        "recall": 0.676923076923077,
+        "expectedRecovery": 102228,
+        "falsePositiveCost": 39234.10000000001,
+        "netValue": 29090.364999999998,
+        "contested": 127
+      },
+      {
+        "threshold": 0.2,
+        "precision": 0.6929133858267716,
+        "recall": 0.676923076923077,
+        "expectedRecovery": 102228,
+        "falsePositiveCost": 39234.10000000001,
+        "netValue": 29090.364999999998,
+        "contested": 127
+      },
+      {
+        "threshold": 0.25,
+        "precision": 0.7073170731707317,
+        "recall": 0.6692307692307692,
+        "expectedRecovery": 102016,
+        "falsePositiveCost": 36268.10000000001,
+        "netValue": 32887.44499999999,
+        "contested": 123
+      },
+      {
+        "threshold": 0.3,
+        "precision": 0.7073170731707317,
+        "recall": 0.6692307692307692,
+        "expectedRecovery": 102016,
+        "falsePositiveCost": 36268.10000000001,
+        "netValue": 32887.44499999999,
+        "contested": 123
+      },
+      {
+        "threshold": 0.35,
+        "precision": 0.7264957264957265,
+        "recall": 0.6538461538461539,
+        "expectedRecovery": 100413,
+        "falsePositiveCost": 32352.300000000007,
+        "netValue": 36771.659999999996,
+        "contested": 117
+      },
+      {
+        "threshold": 0.4,
+        "precision": 0.7264957264957265,
+        "recall": 0.6538461538461539,
+        "expectedRecovery": 100413,
+        "falsePositiveCost": 32352.300000000007,
+        "netValue": 36771.659999999996,
+        "contested": 117
+      },
+      {
+        "threshold": 0.45,
+        "precision": 0.7264957264957265,
+        "recall": 0.6538461538461539,
+        "expectedRecovery": 100413,
+        "falsePositiveCost": 32352.300000000007,
+        "netValue": 36771.659999999996,
+        "contested": 117
+      },
+      {
+        "threshold": 0.5,
+        "precision": 0.7264957264957265,
+        "recall": 0.6538461538461539,
+        "expectedRecovery": 100413,
+        "falsePositiveCost": 32352.300000000007,
+        "netValue": 36771.659999999996,
+        "contested": 117
+      },
+      {
+        "threshold": 0.55,
+        "precision": 0.7297297297297297,
+        "recall": 0.6230769230769231,
+        "expectedRecovery": 94604,
+        "falsePositiveCost": 30433.800000000007,
+        "netValue": 34486.06999999999,
+        "contested": 111
+      },
+      {
+        "threshold": 0.6,
+        "precision": 0.7307692307692307,
+        "recall": 0.5846153846153846,
+        "expectedRecovery": 90728,
+        "falsePositiveCost": 28472.100000000006,
+        "netValue": 34404.16499999999,
+        "contested": 104
+      },
+      {
+        "threshold": 0.65,
+        "precision": 0.7307692307692307,
+        "recall": 0.5846153846153846,
+        "expectedRecovery": 90728,
+        "falsePositiveCost": 28472.100000000006,
+        "netValue": 34404.16499999999,
+        "contested": 104
+      },
+      {
+        "threshold": 0.7,
+        "precision": 0.7419354838709677,
+        "recall": 0.5307692307692308,
+        "expectedRecovery": 79330,
+        "falsePositiveCost": 24510.200000000004,
+        "netValue": 29943.32,
+        "contested": 93
+      },
+      {
+        "threshold": 0.74,
+        "precision": 0.75,
+        "recall": 0.06923076923076923,
+        "expectedRecovery": 9585,
+        "falsePositiveCost": 3081.5,
+        "netValue": 3302.5,
+        "contested": 12
+      },
+      {
+        "threshold": 0.75,
+        "precision": 0.75,
+        "recall": 0.06923076923076923,
+        "expectedRecovery": 9585,
+        "falsePositiveCost": 3081.5,
+        "netValue": 3302.5,
+        "contested": 12
+      },
+      {
+        "threshold": 0.8,
+        "precision": 0.75,
+        "recall": 0.06923076923076923,
+        "expectedRecovery": 9585,
+        "falsePositiveCost": 3081.5,
+        "netValue": 3302.5,
+        "contested": 12
+      },
+      {
+        "threshold": 0.85,
+        "precision": 1.0,
+        "recall": 0.015384615384615385,
+        "expectedRecovery": 1490,
+        "falsePositiveCost": 0,
+        "netValue": 967.65,
+        "contested": 2
+      },
+      {
+        "threshold": 0.9,
+        "precision": 1.0,
+        "recall": 0.015384615384615385,
+        "expectedRecovery": 1490,
+        "falsePositiveCost": 0,
+        "netValue": 967.65,
+        "contested": 2
+      }
+    ],
+    "strategies": [
+      {
+        "strategy": "contest_nothing",
+        "label": "Contest nothing",
+        "cases": 225,
+        "contested": 0,
+        "autoPrepared": 0,
+        "humanReview": 0,
+        "doNotContest": 225,
+        "wins": 0,
+        "losses": 0,
+        "grossRecovery": 0.0,
+        "contestCost": 0.0,
+        "falsePositiveCost": 0.0,
+        "netValue": 0.0,
+        "coverageRate": 0.0,
+        "precisionContest": 0,
+        "recallWinnable": 0.0
+      },
+      {
+        "strategy": "contest_everything",
+        "label": "Contest everything",
+        "cases": 225,
+        "contested": 225,
+        "autoPrepared": 225,
+        "humanReview": 0,
+        "doNotContest": 0,
+        "wins": 121,
+        "losses": 104,
+        "grossRecovery": 184171.0,
+        "contestCost": 61303.51500000001,
+        "falsePositiveCost": 108872.99999999997,
+        "netValue": 13994.485000000015,
+        "coverageRate": 1.0,
+        "precisionContest": 0.5377777777777778,
+        "recallWinnable": 1.0
+      },
+      {
+        "strategy": "rules_only",
+        "label": "Rules only",
+        "cases": 225,
+        "contested": 39,
+        "autoPrepared": 39,
+        "humanReview": 89,
+        "doNotContest": 97,
+        "wins": 28,
+        "losses": 11,
+        "grossRecovery": 77713.0,
+        "contestCost": 11304.914999999999,
+        "falsePositiveCost": 12494.8,
+        "netValue": 53913.285,
+        "coverageRate": 0.17333333333333334,
+        "precisionContest": 0.717948717948718,
+        "recallWinnable": 0.23140495867768596
+      },
+      {
+        "strategy": "ml_policy",
+        "label": "ML + policy gate",
+        "cases": 225,
+        "contested": 65,
+        "autoPrepared": 52,
+        "humanReview": 138,
+        "doNotContest": 160,
+        "wins": 46,
+        "losses": 19,
+        "grossRecovery": 84700.0,
+        "contestCost": 18045.034999999996,
+        "falsePositiveCost": 20596.899999999994,
+        "netValue": 46058.065,
+        "coverageRate": 0.28888888888888886,
+        "precisionContest": 0.7076923076923077,
+        "recallWinnable": 0.38016528925619836
+      }
+    ],
+    "operatingPoint": {
+      "threshold": 0.74,
+      "precision": 0.75,
+      "recall": 0.06923076923076923,
+      "expectedRecovery": 9585,
+      "falsePositiveCost": 3081.5,
+      "netValue": 3302.5,
+      "contested": 12
+    },
+    "evidenceGaps": [
+      {
+        "key": "transaction_record",
+        "label": "Transaction record",
+        "missingCount": 195
+      },
+      {
+        "key": "support_history",
+        "label": "Support ticket history",
+        "missingCount": 174
+      },
+      {
+        "key": "authentication_indicator",
+        "label": "Authentication indicator",
+        "missingCount": 131
+      },
+      {
+        "key": "fulfillment_status",
+        "label": "Fulfillment status",
+        "missingCount": 109
+      },
+      {
+        "key": "order_confirmation",
+        "label": "Order confirmation",
+        "missingCount": 96
+      },
+      {
+        "key": "account_session_evidence",
+        "label": "Account / session evidence",
+        "missingCount": 72
+      }
+    ]
+  },
+  "overview": {
+    "totalDisputes": 1500,
+    "totalDisputedAmount": 2036381,
+    "potentialRecovery": 1116189,
+    "simulatedRecovered": 84700.0,
+    "netValue": 46058.065,
+    "autoPrepRate": 0.23333333333333334,
+    "humanReviewQueue": 797,
+    "modelPrecision": 0.75,
+    "modelRecall": 0.12396694214876033,
+    "modelMacroF1": 0.78225211889005,
+    "falsePositiveCost": 20596.899999999994,
+    "coverageRate": 0.28888888888888886,
+    "heldOutN": 225
+  },
+  "failureGallery": [
+    {
+      "caseId": "CB-1743",
+      "trueCategory": "merchant_service_issue",
+      "predictedCategory": "friendly_fraud_likely",
+      "confidence": 1.0,
+      "topShap": [
+        {
+          "feature": "support_ticket_count",
+          "label": "Support tickets",
+          "value": 0.829459592291397,
+          "contribution": -0.0754825723339691,
+          "direction": "opposes"
+        },
+        {
+          "feature": "payment_method_age_days",
+          "label": "Payment method age",
+          "value": 1.3494611658878417,
+          "contribution": 0.06208854202207838,
+          "direction": "supports"
+        },
+        {
+          "feature": "prior_successful_orders",
+          "label": "Prior successful orders",
+          "value": -0.9733230790092122,
+          "contribution": 0.05480824325287689,
+          "direction": "supports"
+        },
+        {
+          "feature": "refund_requested",
+          "label": "Refund requested",
+          "value": 2.2133405532123738,
+          "contribution": -0.027753660049643122,
+          "direction": "opposes"
+        }
+      ],
+      "whyFailed": "The prediction disagreed with the synthetic category label. The measured top contribution was Support tickets (opposes). Policy still has to approve any automatic draft.",
+      "policyPreventedHarm": true,
+      "policyAction": "recommend_do_not_contest"
+    },
+    {
+      "caseId": "CB-1319",
+      "trueCategory": "technical_or_insufficient_information",
+      "predictedCategory": "true_fraud_likely",
+      "confidence": 0.9873417721518988,
+      "topShap": [
+        {
+          "feature": "location_consistency",
+          "label": "Location consistency",
+          "value": -1.4922669959988175,
+          "contribution": 0.3376334542066257,
+          "direction": "supports"
+        },
+        {
+          "feature": "device_consistency",
+          "label": "Device consistency",
+          "value": -1.7775914852050787,
+          "contribution": 0.28394945094624013,
+          "direction": "supports"
+        },
+        {
+          "feature": "authentication_completed",
+          "label": "Authentication completed",
+          "value": -1.5701422020484141,
+          "contribution": 0.13862762204054177,
+          "direction": "supports"
+        },
+        {
+          "feature": "prior_undisputed_ratio",
+          "label": "Prior undisputed ratio",
+          "value": -1.7649189305616282,
+          "contribution": 0.1192141311919257,
+          "direction": "supports"
+        }
+      ],
+      "whyFailed": "The prediction disagreed with the synthetic category label. The measured top contribution was Location consistency (supports). Policy still has to approve any automatic draft.",
+      "policyPreventedHarm": true,
+      "policyAction": "mark_evidence_incomplete"
+    },
+    {
+      "caseId": "CB-1659",
+      "trueCategory": "merchant_service_issue",
+      "predictedCategory": "friendly_fraud_likely",
+      "confidence": 0.985759493670886,
+      "topShap": [
+        {
+          "feature": "support_ticket_count",
+          "label": "Support tickets",
+          "value": 0.10489006491538463,
+          "contribution": -0.039964342977801465,
+          "direction": "opposes"
+        },
+        {
+          "feature": "payment_method_age_days",
+          "label": "Payment method age",
+          "value": 1.1556112271439265,
+          "contribution": 0.03848955021662814,
+          "direction": "supports"
+        },
+        {
+          "feature": "log_amount",
+          "label": "Log disputed amount",
+          "value": -0.8468441204291222,
+          "contribution": 0.01204988508196067,
+          "direction": "supports"
+        },
+        {
+          "feature": "location_consistency",
+          "label": "Location consistency",
+          "value": 0.5649461305505926,
+          "contribution": -0.011471729811145859,
+          "direction": "opposes"
+        }
+      ],
+      "whyFailed": "The prediction disagreed with the synthetic category label. The measured top contribution was Support tickets (opposes). Policy still has to approve any automatic draft.",
+      "policyPreventedHarm": false,
+      "policyAction": "recommend_do_not_contest"
+    },
+    {
+      "caseId": "CB-1435",
+      "trueCategory": "technical_or_insufficient_information",
+      "predictedCategory": "friendly_fraud_likely",
+      "confidence": 0.979591836734694,
+      "topShap": [
+        {
+          "feature": "device_consistency",
+          "label": "Device consistency",
+          "value": 1.402522749351995,
+          "contribution": 0.018761292927064688,
+          "direction": "supports"
+        },
+        {
+          "feature": "evidence_completeness",
+          "label": "Evidence completeness",
+          "value": -0.497837629562921,
+          "contribution": -0.017957114874506047,
+          "direction": "opposes"
+        },
+        {
+          "feature": "account_age_days",
+          "label": "Account tenure (days)",
+          "value": -1.1538036609652524,
+          "contribution": -0.007027478600075271,
+          "direction": "opposes"
+        },
+        {
+          "feature": "three_ds_completed",
+          "label": "3DS completed",
+          "value": 1.227178302901478,
+          "contribution": -0.005915115050004083,
+          "direction": "opposes"
+        }
+      ],
+      "whyFailed": "The prediction disagreed with the synthetic category label. The measured top contribution was Device consistency (supports). Policy still has to approve any automatic draft.",
+      "policyPreventedHarm": true,
+      "policyAction": "mark_evidence_incomplete"
+    },
+    {
+      "caseId": "CB-2456",
+      "trueCategory": "friendly_fraud_likely",
+      "predictedCategory": "merchant_service_issue",
+      "confidence": 0.7867005604021029,
+      "topShap": [
+        {
+          "feature": "support_ticket_count",
+          "label": "Support tickets",
+          "value": 2.2785986470434216,
+          "contribution": 0.5752642517452241,
+          "direction": "supports"
+        },
+        {
+          "feature": "account_age_days",
+          "label": "Account tenure (days)",
+          "value": -1.020620025209761,
+          "contribution": 0.15954619637119088,
+          "direction": "supports"
+        },
+        {
+          "feature": "digital_access_proof",
+          "label": "Digital access proof",
+          "value": 1.5556977340535576,
+          "contribution": 0.09393784425557203,
+          "direction": "supports"
+        },
+        {
+          "feature": "cancellation_requested",
+          "label": "Cancellation requested",
+          "value": 2.5495097567963714,
+          "contribution": 0.04415452392456054,
+          "direction": "supports"
+        }
+      ],
+      "whyFailed": "The prediction disagreed with the synthetic category label. The measured top contribution was Support tickets (supports). Policy still has to approve any automatic draft.",
+      "policyPreventedHarm": false,
+      "policyAction": "request_human_review"
+    },
+    {
+      "caseId": "CB-1676",
+      "trueCategory": "true_fraud_likely",
+      "predictedCategory": "merchant_service_issue",
+      "confidence": 0.5211027079775555,
+      "topShap": [
+        {
+          "feature": "support_ticket_count",
+          "label": "Support tickets",
+          "value": 1.5540291196674094,
+          "contribution": 0.39213662548288764,
+          "direction": "supports"
+        },
+        {
+          "feature": "authentication_completed",
+          "label": "Authentication completed",
+          "value": -1.5701422020484141,
+          "contribution": 0.11368034411714437,
+          "direction": "supports"
+        },
+        {
+          "feature": "login_proximity",
+          "label": "Login proximity to purchase",
+          "value": -1.8036852115579365,
+          "contribution": 0.09198765744626342,
+          "direction": "supports"
+        },
+        {
+          "feature": "device_consistency",
+          "label": "Device consistency",
+          "value": -0.9964434380245256,
+          "contribution": -0.0831799521979458,
+          "direction": "opposes"
+        }
+      ],
+      "whyFailed": "The prediction disagreed with the synthetic category label. The measured top contribution was Support tickets (supports). Policy still has to approve any automatic draft.",
+      "policyPreventedHarm": true,
+      "policyAction": "request_human_review"
+    },
+    {
+      "caseId": "CB-1979",
+      "trueCategory": "true_fraud_likely",
+      "predictedCategory": "friendly_fraud_likely",
+      "confidence": 0.5079768817377035,
+      "topShap": [
+        {
+          "feature": "device_consistency",
+          "label": "Device consistency",
+          "value": -0.8785056175808564,
+          "contribution": -0.27824818403917173,
+          "direction": "opposes"
+        },
+        {
+          "feature": "location_consistency",
+          "label": "Location consistency",
+          "value": -1.5553313041706023,
+          "contribution": -0.1762914192235333,
+          "direction": "opposes"
+        },
+        {
+          "feature": "account_age_days",
+          "label": "Account tenure (days)",
+          "value": -0.8164051170513408,
+          "contribution": -0.0933911617264501,
+          "direction": "opposes"
+        },
+        {
+          "feature": "payment_method_age_days",
+          "label": "Payment method age",
+          "value": 1.0331796868846117,
+          "contribution": 0.07862047519927803,
+          "direction": "supports"
+        }
+      ],
+      "whyFailed": "The prediction disagreed with the synthetic category label. The measured top contribution was Device consistency (opposes). Policy still has to approve any automatic draft.",
+      "policyPreventedHarm": true,
+      "policyAction": "request_human_review"
+    },
+    {
+      "caseId": "CB-2207",
+      "trueCategory": "merchant_service_issue",
+      "predictedCategory": "true_fraud_likely",
+      "confidence": 0.48865845755022685,
+      "topShap": [
+        {
+          "feature": "location_consistency",
+          "label": "Location consistency",
+          "value": -1.4326212711448156,
+          "contribution": 0.2571353195405982,
+          "direction": "supports"
+        },
+        {
+          "feature": "payment_method_age_days",
+          "label": "Payment method age",
+          "value": 1.4922979628570423,
+          "contribution": 0.18324692158133507,
+          "direction": "supports"
+        },
+        {
+          "feature": "login_proximity",
+          "label": "Login proximity to purchase",
+          "value": -1.0275728430380318,
+          "contribution": -0.17054853429887973,
+          "direction": "opposes"
+        },
+        {
+          "feature": "device_consistency",
+          "label": "Device consistency",
+          "value": -1.404965913657103,
+          "contribution": 0.12877169319522885,
+          "direction": "supports"
+        }
+      ],
+      "whyFailed": "The prediction disagreed with the synthetic category label. The measured top contribution was Location consistency (supports). Policy still has to approve any automatic draft.",
+      "policyPreventedHarm": true,
+      "policyAction": "request_human_review"
+    }
+  ],
+  "datasetVersion": "synth-v1.5",
+  "costAssumptions": {
+    "contestCostFixed": 250.0,
+    "contestCostVariable": 0.015,
+    "fpPenaltyFixed": 900.0,
+    "fpPenaltyVariable": 0.1,
+    "currency": "INR",
+    "notes": "Synthetic INR cost model for evaluation only."
+  }
+}

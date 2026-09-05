@@ -1,0 +1,21 @@
+# Optional local Postgres for other developers. Not required if DATABASE_URL points at Neon.
+# Do not treat this as something that must be installed on every machine.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: chargebackos
+      POSTGRES_PASSWORD: chargebackos
+      POSTGRES_DB: chargebackos
+    ports:
+      - "5432:5432"
+    volumes:
+      - chargebackos_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chargebackos"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  chargebackos_pg:

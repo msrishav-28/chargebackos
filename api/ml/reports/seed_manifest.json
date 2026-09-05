@@ -1,0 +1,11 @@
+{
+  "seed": 42,
+  "datasetVersion": "synth-v1.5",
+  "modelVersion": "hgb-calibrated-v2",
+  "policyVersion": "policy-v1.5",
+  "merchants": 25,
+  "disputes": 1500,
+  "nTrain": 1050,
+  "nValid": 225,
+  "nTest": 225
+}
