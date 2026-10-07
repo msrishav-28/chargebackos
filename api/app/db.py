@@ -11,8 +11,12 @@ class Base(DeclarativeBase):
 
 
 def _engine():
-    url = get_settings().runtime_database_url
-    return create_engine(url, pool_pre_ping=True, pool_recycle=300, future=True)
+    settings = get_settings()
+    return create_engine(
+        settings.runtime_database_url, connect_args=settings.database_connect_args,
+        pool_pre_ping=True, pool_recycle=300, pool_size=5, max_overflow=0,
+        pool_timeout=10, future=True,
+    )
 
 
 engine = _engine()

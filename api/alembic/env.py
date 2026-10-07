@@ -10,7 +10,7 @@ from app import models  # noqa: F401
 config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
-config.set_main_option("sqlalchemy.url", get_settings().migration_database_url)
+# Do not put URLs through ConfigParser interpolation: encoded passwords contain %.
 target_metadata = Base.metadata
 
 

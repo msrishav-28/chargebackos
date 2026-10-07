@@ -17,10 +17,25 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm run lint
+      - run: npm run build
       - run: node --experimental-strip-types --test src/lib/ops-schemas.test.ts
 
   api:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ci-only@password%encoded
+          POSTGRES_DB: chargebackos_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d chargebackos_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      TEST_POSTGRES_URL: postgresql+psycopg://postgres:ci-only%40password%25encoded@localhost:5432/chargebackos_test
     defaults:
       run:
         working-directory: api
@@ -29,5 +44,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+        working-directory: .
       - run: pip install -r requirements.txt
-      - run: python -m pytest -q --ignore=app/tests/test_web_contract.py
+      - run: python -m pytest -q

@@ -2,9 +2,9 @@
 
 **Single source of truth** for anyone (human or agent) working in this repository.
 
-End goal: run ChargebackOS as a real hosted system. **Do not rewrite the website to Next.js.** The current website stack (TanStack Start) has no compatibility issue with FastAPI, Neon, or sign-in.
+End goal: run ChargebackOS as a real hosted system. **Do not rewrite the website to Next.js.** The current website stack (TanStack Start) has no compatibility issue with FastAPI, Supabase, or sign-in.
 
-Product: **ChargebackOS** — defense-only chargeback triage for the Razorpay AI Buildathon, AI Risk Manager track. One loss class. Policy before AI. Evidence before language. Synthetic data only. No live money, no live bank filing, no customer contact.
+Product: **ChargebackOS** — defense-only chargeback triage for the PayPal AI Hackathon. The owner requested a complete Neon-to-Supabase database migration on 7 October 2026; this direction supersedes the former database choice. See `docs/shipping-plan.md` for delivery milestones. One loss class. Policy before AI. Evidence before language. Synthetic and PayPal sandbox records only. No live money, no live bank filing, no customer contact.
 
 ---
 
@@ -14,14 +14,14 @@ Product: **ChargebackOS** — defense-only chargeback triage for the Razorpay AI
 | --- | --- | --- |
 | Website | TanStack Start, React 19, Tailwind v4, `DESIGN.md` (“Column”) | Vercel |
 | Server | FastAPI in `api/` | Render |
-| Database | PostgreSQL | Neon (pooled `DATABASE_URL`; direct `DATABASE_URL_DIRECT` for Alembic) |
-| Sign-in | Email + password on FastAPI; sessions in Neon | same Neon |
+| Database | PostgreSQL | Supabase (Session pooler `DATABASE_URL`; direct or Session pooler `DATABASE_URL_DIRECT` for Alembic) |
+| Sign-in | Email + password on FastAPI; sessions in Supabase | same Supabase |
 | Jobs | Postgres job rows inside FastAPI | Redis/Celery later, not this pass |
 
 - The **Python server owns records and rules.** The website is an operator console. After sign-in, Overview / Disputes / case / Evaluation / Policies / About read FastAPI. Do not revive `getUniverse()` or `localStorage` as the live book.
 - This pass uses a **Bearer token** in `sessionStorage` (`VITE_API_URL`). `vercel.app` and `onrender.com` cannot share cookies. A same-origin website proxy remains later if we want httpOnly cookies only.
 - Judges may also curl Render `/api/v1/*` with a bearer token.
-- Only FastAPI opens Neon. The website must not write product tables.
+- Only FastAPI opens Supabase. The website must not write product tables.
 - Leftover Grok App Builder files may remain on disk. Do not teach agents to use the Grok broker, PGLite as the product DB, or `migrations/auth/` as the live schema. Do not delete those leftovers unless a later explicit YES says so.
 
 ### Website rules
@@ -45,7 +45,7 @@ Product: **ChargebackOS** — defense-only chargeback triage for the Razorpay AI
 
 ### Sign-in (no Clerk, no Supabase Auth in this pass)
 
-Neon is Postgres only. FastAPI is the receptionist.
+Supabase is used as PostgreSQL only in this release. FastAPI is the receptionist.
 
 - `operator_users` — email, argon2 hash, role (`viewer` / `analyst` / `reviewer` / `admin`), active flag. Demo staff, not synthetic cardholders.
 - `operator_sessions` — token hash, expiry, revoked_at.
@@ -59,7 +59,7 @@ Neon is Postgres only. FastAPI is the receptionist.
 
 ### This pass (must ship)
 
-Real FastAPI APIs, Neon memory, email/password roles, audit + 409, evidence YAML, seed manifest, synthetic-data disclaimer, structured logs, waking/error UI, pytest for policy / evidence YAML / illegal transitions. Extra APIs: `GET /api/v1/disputes/{id}/timeline`, `GET /api/v1/evaluations`, `GET /api/v1/auth/me`. A Playwright login→demo→blocked path is **later** (skipped this pass).
+Real FastAPI APIs, Supabase memory, email/password roles, audit + 409, evidence YAML, seed manifest, synthetic-data disclaimer, structured logs, waking/error UI, pytest for policy / evidence YAML / illegal transitions. Extra APIs: `GET /api/v1/disputes/{id}/timeline`, `GET /api/v1/evaluations`, `GET /api/v1/auth/me`. Hosted browser login→demo→blocked-path verification is required before submission.
 
 Existing queue filters stay (merchant / reason / category / state / high-value / review).
 
@@ -68,10 +68,9 @@ Existing queue filters stay (merchant / reason / category / state / high-value /
 We **can** have these. They are skipped **this pass**, not banned:
 
 - **Redis and Celery** — the architecture doc lists them for background jobs. This pass stores jobs as Postgres rows because 1,500 synthetic cases do not need a second free Render service that also sleeps. Add them when batch volume or long jobs need a real queue.
-- **15,000 extra undisputed transactions as the default seed** — the master spec’s ledger scale. Default seed is ~1,500 *disputes* so first seed stays minutes, not a tiny Neon stall. Optional later via a full-ledger flag.
+- **15,000 extra undisputed transactions as the default seed** — the master spec’s ledger scale. Default seed is ~1,500 *disputes* so first seed stays minutes, with a bounded seed workload. Optional later via a full-ledger flag.
 - Extra queue filters (confidence / evidence completeness / policy result)
-- Playwright login → CB-DEMO-01 / CB-DEMO-03 blocked-draft path
-- Clerk, Supabase Auth, or Google login if email/password on Neon is no longer enough
+- Clerk, Supabase Auth, or Google login if email/password on Supabase is no longer enough
 - XGBoost/LightGBM **package** in place of scikit-learn HistGradientBoosting
 - `expire_stale_cases` timed worker
 - Client-recorded demo video
@@ -83,10 +82,10 @@ We **can** have these. They are skipped **this pass**, not banned:
 - **Nagging customers, retrying cards, or dunning** — that is a *failed-payment recovery* product. ChargebackOS is *post-dispute merchant defense*. Do not add customer contact.
 - Live chargeback filing, live money movement, refunds, or customer emails
 - Payment-card testing, fraud evasion, or any offense-capable tool
-- Dropping/resetting shared Neon without a new explicit YES
+- Dropping/resetting shared Neon or Supabase without a new explicit YES
 - Deleting leftover builder files without a new explicit YES
 - Committing `.env` files with real secrets
-- Installing Docker on a machine that already has Neon. Keep `docker-compose.yml` in the repo for other developers only.
+- Installing Docker on a machine that already has Supabase. Keep `docker-compose.yml` in the repo for other developers only.
 
 ---
 
@@ -105,10 +104,10 @@ We **can** have these. They are skipped **this pass**, not banned:
 
 Windows/macOS/Linux, not a Grok sandbox.
 
-- API: `api/` — Python 3.11+, uvicorn, Alembic. Neon `DATABASE_URL` (pooled) required for real runs. Alembic uses `DATABASE_URL_DIRECT` when set.
+- API: `api/` — Python 3.11+, uvicorn, Alembic. Supabase `DATABASE_URL` (Session pooler, port 5432) required for hosted runs. Alembic uses `DATABASE_URL_DIRECT` when set.
 - Web: `npm run dev` (port 8080). `VITE_API_URL` points at FastAPI. Sign-in uses a Bearer token this pass (two hosts cannot share cookies).
 - Do not use PGLite as the product store. Do not use Render free Postgres.
-- `docker-compose.yml` is optional for other people. Do not require Docker when Neon is available.
+- `docker-compose.yml` is optional for other people. Do not require Docker when Supabase is available.
 - Do not create `.grok` folders. Do not add FastAPI logic into website route handlers.
 
 When UI changes: match `DESIGN.md`. When API changes: pytest. Do not leave stubs, TODOs, or a second source of truth.
