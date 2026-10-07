@@ -1,4 +1,6 @@
-# ChargebackOS: PayPal submission delivery plan
+# ChargebackOS: initial recovery and delivery plan
+
+> Historical plan from 7 October. The [execution playbook](execution-playbook.md) supersedes its scope and sequencing, including the addition of reviewed PayPal sandbox evidence submission. Use the playbook for new work.
 
 Decision date: 7 October 2026. Status: recovery changes prepared; live deployment unverified; PayPal integration not implemented. This is the execution plan, not a claim of completed functionality.
 

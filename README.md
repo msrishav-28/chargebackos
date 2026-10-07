@@ -2,7 +2,9 @@
 
 **An AI-assisted, policy-controlled chargeback triage and evidence-response system.**
 
-ChargebackOS is being developed for the **PayPal AI Hackathon** from an existing chargeback-triage prototype. PayPal sandbox integration is planned and is not yet implemented; see the [shipping plan](docs/shipping-plan.md). It focuses on a single, high-impact loss class—merchant chargebacks and friendly fraud—and provides a measurable, verifiable, and economically honest way to decide which disputes to contest.
+ChargebackOS is being developed for the **PayPal AI Hackathon** from an existing chargeback-triage prototype. PayPal sandbox integration is planned and is not yet implemented; see the [execution playbook](docs/execution-playbook.md). It focuses on a single, high-impact loss class—merchant chargebacks and friendly fraud—and provides a measurable, verifiable, and economically honest way to decide which disputes to contest.
+
+The playbook defines 23 ordered tasks, implementation contracts, migration/recovery procedures, 26 acceptance gates, and the submission schedule. It distinguishes current behavior from planned functionality.
 
 ## Why Chargebacks?
 Chargeback processing is document-heavy and operationally painful. Modern dispute automation relies on gathering transaction, delivery, communication, and authentication evidence. ChargebackOS differentiates itself through rigorous threshold economics, model calibration, an honest failure gallery, and a highly reviewable audit trail rather than generic LLM wrapper behavior.

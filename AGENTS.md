@@ -4,7 +4,7 @@
 
 End goal: run ChargebackOS as a real hosted system. **Do not rewrite the website to Next.js.** The current website stack (TanStack Start) has no compatibility issue with FastAPI, Supabase, or sign-in.
 
-Product: **ChargebackOS** — defense-only chargeback triage for the PayPal AI Hackathon. The owner requested a complete Neon-to-Supabase database migration on 7 October 2026; this direction supersedes the former database choice. See `docs/shipping-plan.md` for delivery milestones. One loss class. Policy before AI. Evidence before language. Synthetic and PayPal sandbox records only. No live money, no live bank filing, no customer contact.
+Product: **ChargebackOS** — defense-only chargeback triage for the PayPal AI Hackathon. The owner requested a complete Neon-to-Supabase database migration on 7 October 2026; this direction supersedes the former database choice. Use `docs/execution-playbook.md` as the canonical product specification and ordered task plan. It supersedes the initial shipping plan; planned behavior is not yet implemented. One loss class. Policy before AI. Evidence before language. Synthetic and PayPal sandbox records only. No live money, no live bank filing, no customer contact.
 
 ---
 
@@ -28,7 +28,7 @@ Product: **ChargebackOS** — defense-only chargeback triage for the PayPal AI H
 
 1. Read `DESIGN.md` first. Do not invent tokens. No generic `bg-red-500` / `text-blue-600`.
 2. Tone: high-trust risk-ops console (Brex/Stripe), not a playful landing page.
-3. Routes stay: `/`, `/disputes`, `/disputes/$caseId`, `/evaluation`, `/policies`, `/about`, plus `/login`.
+3. Routes stay: `/`, `/disputes`, `/disputes/$caseId`, `/evaluation`, `/policies`, `/about`, plus `/login`. Add `/approvals` and `/activity` through the playbook tasks; retain existing routes.
 4. TanStack Query for server state. Strict TypeScript. Fail loudly.
 5. Console routes require a session. Fail closed. Hiding a button is not security.
 
@@ -36,8 +36,8 @@ Product: **ChargebackOS** — defense-only chargeback triage for the PayPal AI H
 
 1. FastAPI + Pydantic v2 + SQLAlchemy 2 + Alembic. Schema in `api/` migrations is the source of truth for product and operator tables.
 2. Deterministic policy engine outranks the model and any LLM. No action without a stored policy decision.
-3. Invalid state transitions: HTTP 409, `action.blocked` audit event, **no write**.
-4. Idempotent ingest on `external_dispute_id`.
+3. Invalid state transitions: HTTP 409, `action.blocked` audit event, **no business-state mutation**. Persist the blocked audit event separately.
+4. Preserve existing synthetic ingest behavior. Provider ingest is idempotent on source kind, seller and external dispute ID, as specified in the playbook.
 5. Structured logs: request id, correlation id, case id, batch id, model version, policy version, timing, error type. Never log passwords.
 6. If the model artifact is missing: fail closed to human review. Do not invent scores.
 7. Health: `/health/live`, `/health/ready`, `/health/model`.
@@ -50,7 +50,7 @@ Supabase is used as PostgreSQL only in this release. FastAPI is the receptionist
 - `operator_users` — email, argon2 hash, role (`viewer` / `analyst` / `reviewer` / `admin`), active flag. Demo staff, not synthetic cardholders.
 - `operator_sessions` — token hash, expiry, revoked_at.
 - Synthetic `customers` never log in.
-- `viewer` read. `analyst` allowed case actions except close/reset. `reviewer` can approve a draft from human review. `admin` reset demo and re-run evaluation. Policy thresholds are not editable in this submission.
+- `viewer` read. `analyst` allowed case actions except close/reset. `reviewer` can approve a draft from human review. `admin` may re-run evaluation. Reset is allowed only in isolated fixture environments; disable shared sandbox reset before the immutable-audit release gate. New sandbox approvals require a reviewer/admin other than the requester; use the playbook role matrix. Policy thresholds are not editable in this submission.
 - Seeded demo staff passwords live in env / secrets, never committed.
 
 ---
@@ -58,6 +58,8 @@ Supabase is used as PostgreSQL only in this release. FastAPI is the receptionist
 ## Now vs later vs never
 
 ### This pass (must ship)
+
+Complete the recovery requirements below and the PayPal sandbox workflow in the execution playbook: source-backed analysis, evidence gaps, reviewed drafts, explicit evidence submission, unknown-outcome reconciliation, and enforced audit permissions. No automatic external sends.
 
 Real FastAPI APIs, Supabase memory, email/password roles, audit + 409, evidence YAML, seed manifest, synthetic-data disclaimer, structured logs, waking/error UI, pytest for policy / evidence YAML / illegal transitions. Extra APIs: `GET /api/v1/disputes/{id}/timeline`, `GET /api/v1/evaluations`, `GET /api/v1/auth/me`. Hosted browser login→demo→blocked-path verification is required before submission.
 
@@ -73,7 +75,7 @@ We **can** have these. They are skipped **this pass**, not banned:
 - Clerk, Supabase Auth, or Google login if email/password on Supabase is no longer enough
 - XGBoost/LightGBM **package** in place of scikit-learn HistGradientBoosting
 - `expire_stale_cases` timed worker
-- Client-recorded demo video
+- Additional tutorial videos beyond the required submission demo
 - Paying Render so it does not sleep
 
 ### Never for this product (not “later”)
@@ -91,12 +93,12 @@ We **can** have these. They are skipped **this pass**, not banned:
 
 ## Domain invariants
 
-- Frozen 70 / 15 / 15 split. Thresholds chosen on validation only. Dashboard metrics from held-out test.
+- Synthetic evaluation only: frozen 70 / 15 / 15 split. Thresholds chosen on validation only. Dashboard metrics from held-out test.
 - Four baselines: contest nothing, contest everything, rules only, ML + policy.
-- False-positive cost is first-class. Net value = recovery − contest cost − FP penalty.
+- Synthetic evaluation: false-positive cost is first-class. Net value = recovery − contest cost − FP penalty.
 - LLM drafts only from structured evidence JSON. Cite evidence ids. Never invent facts. Never override policy.
 - Simulation labels (`true_category`, would-win) live off the case row so the model cannot be fed the answer.
-- Seed 42. Narrative cases `CB-DEMO-01` … `CB-DEMO-05` stay on the test split.
+- Synthetic fixtures: seed 42. Narrative cases `CB-DEMO-01` … `CB-DEMO-05` stay on the test split.
 
 ---
 
