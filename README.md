@@ -2,7 +2,9 @@
 
 **An AI-assisted, policy-controlled chargeback triage and evidence-response system.**
 
-ChargebackOS is a defense-only submission for the **Razorpay AI Buildathon (AI Risk Manager Track)**. It focuses on a single, high-impact loss class—merchant chargebacks and friendly fraud—and provides a measurable, verifiable, and economically honest way to decide which disputes to contest.
+ChargebackOS is being developed for the **PayPal AI Hackathon** from an existing chargeback-triage prototype. PayPal sandbox integration is planned and is not yet implemented; see the [execution playbook](docs/execution-playbook.md). It focuses on a single, high-impact loss class—merchant chargebacks and friendly fraud—and provides a measurable, verifiable, and economically honest way to decide which disputes to contest.
+
+The playbook defines 23 ordered tasks, implementation contracts, migration/recovery procedures, 26 acceptance gates, and the submission schedule. It distinguishes current behavior from planned functionality.
 
 ## Why Chargebacks?
 Chargeback processing is document-heavy and operationally painful. Modern dispute automation relies on gathering transaction, delivery, communication, and authentication evidence. ChargebackOS differentiates itself through rigorous threshold economics, model calibration, an honest failure gallery, and a highly reviewable audit trail rather than generic LLM wrapper behavior.
@@ -13,7 +15,7 @@ This system is purpose-built for merchant defense. It performs risk triage, evid
 ## Architecture
 The system employs a strict "Policy before AI" and "Evidence before Language" architecture. AI models (tabular gradient boosting) and LLMs (for drafting) are never allowed to bypass deterministic merchant policies or invent missing evidence.
 
-**Running stack (locked):** TanStack Start website on Vercel, FastAPI server on Render, PostgreSQL on Neon. The website is not Next.js; that stack is compatible and will not be rewritten. See `AGENTS.md`.
+**Target stack:** TanStack Start website on Vercel, FastAPI server on Render, PostgreSQL on Supabase. The website is not Next.js; that stack is compatible and will not be rewritten. See `AGENTS.md`.
 
 Please see the [Architecture Document](docs/architecture.md) for diagrams, the data model, and state machine specifications.
 
@@ -36,9 +38,9 @@ The Evaluation page exposes misclassified cases, their strongest measured model 
 
 ## Getting Started
 
-You need Python 3.11+, Node.js 24 for the repository checks, and a Postgres URL. Prefer **Neon**. `docker-compose.yml` is optional for other developers who want Postgres on their own machine — it is not required here.
+You need Python 3.11+, Node.js 24 for the repository checks, and a Postgres URL. Use **Supabase PostgreSQL**. `docker-compose.yml` is optional for other developers who want Postgres on their own machine — it is not required here.
 
-Hosted shape: [Hosting](docs/hosting.md) (Vercel + Render + Neon).
+Hosted shape: [Hosting](docs/hosting.md) (Vercel + Render + Supabase).
 
 ### 1. API
 ```bash
@@ -47,7 +49,7 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 copy ..\.env.example ..\.env
-# set DATABASE_URL (Neon pooled), DATABASE_URL_DIRECT (Neon direct), AUTH_SECRET, DEMO_PASSWORD
+# set DATABASE_URL (Supabase Session pooler), DATABASE_URL_DIRECT (direct or Session pooler), AUTH_SECRET, DEMO_PASSWORD
 alembic upgrade head
 python -m app.seed
 uvicorn app.main:app --host 0.0.0.0 --port 8000
@@ -77,7 +79,7 @@ Start here if you are a **judge or a hiring manager:** [Visitor guide](docs/visi
 - [Synthetic data disclaimer](docs/synthetic_data_disclaimer.md)
 
 ---
-*Built for the Razorpay AI Buildathon.*
+*PayPal submission work is tracked in [the delivery plan](docs/shipping-plan.md).*
 
 ## Verification and measured limits
 
@@ -91,4 +93,4 @@ The default split is exactly 1,050 / 225 / 225. Rules-only currently leads ML + 
 
 The operator console reads FastAPI only. The old in-browser fake book has been removed. Case buttons follow allowed server moves: a “draft ready” case can confirm a draft; route / do-not-contest / close stay disabled there.
 
-Before sharing a live demonstration, resolve the [model artifact release gate](docs/hosting.md#model-artifact-release-gate) and check hosted sign-in and blocked drafting. The checked-in Render build does not yet prepare a model artifact. This repository is not submission-ready until those hosted checks pass.
+Before sharing a live demonstration, resolve the [model artifact release gate](docs/hosting.md#model-artifact-release-gate) and check hosted sign-in and blocked drafting. The Render build trains the model; database initialization is a separate operation documented in the hosting guide. This repository is not submission-ready until those hosted checks pass.
